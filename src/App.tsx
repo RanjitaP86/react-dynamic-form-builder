@@ -1,25 +1,52 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+
+
+import CreatePage from './pages/CreatePage';
+import MyFormsPage from './pages/MyFormsPage';
+import PreviewPage from './pages/PreviewPage';
+
+
+import Header from './components/Header';
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2', 
+    },
+    secondary: {
+      main: '#dc004e', 
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> 
+      <Router>
+        <Header />
+        <main>
+          <Routes>
+            
+            <Route path="/create" element={<CreatePage />} />
+            <Route path="/myforms" element={<MyFormsPage />} />
+            <Route path="/preview/:formId" element={<PreviewPage />} />
+
+            
+            <Route path="/" element={<Navigate replace to="/myforms" />} />
+            
+            <Route path="*" element={
+              <div style={{ textAlign: 'center', marginTop: '50px' }}>
+                <h2>404 - Page Not Found</h2>
+              </div>
+            } />
+          </Routes>
+        </main>
+      </Router>
+    </ThemeProvider>
   );
 }
 
